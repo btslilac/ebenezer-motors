@@ -95,3 +95,10 @@ Deploy the `dist` folder to your static hosting provider (Netlify, Vercel, Azure
 - **Dependency not found**: Ensure you ran `npm install` and that the import path matches the package name.
 - **Port in use**: Stop other dev servers or start Vite with `npm run dev -- --port 5174`.
 - **Styling issues**: Confirm the Tailwind CLI detected your files. Restart `npm run dev` after adding new component paths.
+
+## Recent Fixes (January 2026)
+
+- Removed leftover `[cite_*]` placeholders in [src/pages/Home.jsx](src/pages/Home.jsx#L36-L114) that previously rendered as invalid JSX and caused a white screen on load.
+- Corrected the Vehicle Details import in [src/pages/VehicleDetails.jsx](src/pages/VehicleDetails.jsx#L1-L33) to use the named `vehicles` export, fixing the production build failure and ensuring vehicle data loads.
+- Replaced the Home search redirect with an in-place results preview by adding local filter state and a `Matching Vehicles` section below the controls [src/pages/Home.jsx](src/pages/Home.jsx#L7-L205). Users now see filtered cards instantly, along with a clear-filters action.
+- Verified the updated bundle with `npm run build`, confirming the app compiles without errors.

@@ -1,18 +1,18 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import VehicleCard from '../components/vehicle/VehicleCard';
 import { vehicles } from '../data/vehicles';
 import { CheckCircle, DollarSign, Shield } from 'lucide-react';
 
 const Home = () => {
-  const navigate = useNavigate();
-
   // --- 1. SEARCH STATE MANAGEMENT ---
   const [filters, setFilters] = useState({
     brand: 'All',
     year: 'All',
     maxPrice: 'All'
   });
+  const [searchResults, setSearchResults] = useState([]);
+  const [hasSearched, setHasSearched] = useState(false);
 
   // --- 2. EXTRACT DATA FOR DROPDOWNS ---
   // Get unique brands from your data
@@ -22,21 +22,23 @@ const Home = () => {
 
   // --- 3. HANDLE SEARCH BUTTON CLICK ---
   const handleSearch = () => {
-    const params = new URLSearchParams();
-    if (filters.brand !== 'All') params.append('brand', filters.brand);
-    if (filters.year !== 'All') params.append('year', filters.year);
-    if (filters.maxPrice !== 'All') params.append('maxPrice', filters.maxPrice);
-    
-    // Redirect to inventory with query params
-    navigate(`/inventory?${params.toString()}`);
+    const filtered = vehicles.filter((vehicle) => {
+      if (filters.brand !== 'All' && vehicle.brand !== filters.brand) return false;
+      if (filters.year !== 'All' && String(vehicle.modelYear) !== filters.year) return false;
+      if (filters.maxPrice !== 'All' && vehicle.price > Number(filters.maxPrice)) return false;
+      return true;
+    });
+
+    setSearchResults(filtered);
+    setHasSearched(true);
   };
 
-  [cite_start]// Filter new arrivals based on [cite: 109]
+  // Filter new arrivals based on curated metadata
   const newArrivals = vehicles.filter(v => v.isNewArrival).slice(0, 3);
 
   return (
     <div className="bg-brand-surface">
-      [cite_start]{/* 1. Hero Section [cite: 100-103] */}
+      {/* 1. Hero Section */}
       <div className="relative isolate overflow-hidden bg-brand-primary text-white">
         <div className="absolute inset-0">
           <img
@@ -95,7 +97,7 @@ const Home = () => {
         </div>
       </div>
 
-      [cite_start]{/* 2. Brands Section [cite: 104-105] */}
+      {/* 2. Brands Section */}
       <div className="border-y border-brand-muted/70 bg-white/90">
         <div className="mx-auto flex max-w-6xl items-center gap-12 overflow-x-auto px-4 py-6 text-sm uppercase tracking-[0.25em] text-slate-500 sm:justify-center">
           <span className="whitespace-nowrap">Toyota</span>
@@ -108,7 +110,7 @@ const Home = () => {
         </div>
       </div>
 
-      [cite_start]{/* --- 3. FUNCTIONAL SEARCH BAR [cite: 106-108] --- */}
+      {/* 3. Functional Search Bar */}
       <div className="relative z-10 mx-auto -mt-14 max-w-6xl px-4">
         <div className="grid gap-4 rounded-2xl border border-brand-muted/60 bg-white p-6 shadow-elevated sm:grid-cols-2 md:grid-cols-5">
           
@@ -167,7 +169,43 @@ const Home = () => {
         </div>
       </div>
 
-      [cite_start]{/* 4. Latest Arrivals */}
+      {hasSearched && (
+        <section className="mx-auto max-w-6xl px-4 pt-10 sm:px-6 lg:px-8">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <h2 className="text-2xl font-heading font-semibold text-brand-primary">Matching Vehicles</h2>
+              <p className="text-sm text-slate-500">
+                Showing {searchResults.length} option{searchResults.length === 1 ? '' : 's'} based on your filters.
+              </p>
+            </div>
+            <button
+              type="button"
+              onClick={() => {
+                setFilters({ brand: 'All', year: 'All', maxPrice: 'All' });
+                setSearchResults([]);
+                setHasSearched(false);
+              }}
+              className="self-start rounded-full border border-brand-muted/80 px-4 py-2 text-sm font-semibold text-brand-primary transition hover:border-brand-accent hover:text-brand-accent"
+            >
+              Clear filters
+            </button>
+          </div>
+
+          <div className="mt-8 grid gap-8 sm:grid-cols-2 xl:grid-cols-3">
+            {searchResults.length > 0 ? (
+              searchResults.map((vehicle) => (
+                <VehicleCard key={vehicle.id} vehicle={vehicle} />
+              ))
+            ) : (
+              <div className="rounded-2xl border border-dashed border-brand-muted/60 bg-white p-8 text-center text-sm text-slate-500">
+                No vehicles matched those filters. Try adjusting your selection.
+              </div>
+            )}
+          </div>
+        </section>
+      )}
+
+      {/* 4. Latest Arrivals */}
       <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
@@ -188,7 +226,7 @@ const Home = () => {
         </div>
       </section>
 
-      [cite_start]{/* 5. Why Choose Us  */}
+      {/* 5. Why Choose Us */}
       <section className="bg-white py-16">
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
           <h2 className="text-center text-3xl font-heading font-semibold text-brand-primary">Why Choose Us</h2>
