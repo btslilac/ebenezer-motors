@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import VehicleCard from '../components/vehicle/VehicleCard';
-import { vehicles } from '../data/vehicles';
 import { CheckCircle, DollarSign, Shield } from 'lucide-react';
 
 const Home = () => {
-  // --- 1. SEARCH STATE MANAGEMENT ---
+  // --- 1. STATE MANAGEMENT ---
+  const [vehicles, setVehicles] = useState([]); // Holds data from API
+  const [loading, setLoading] = useState(true); // Loading state
+  
   const [filters, setFilters] = useState({
     brand: 'All',
     year: 'All',
@@ -14,13 +16,31 @@ const Home = () => {
   const [searchResults, setSearchResults] = useState([]);
   const [hasSearched, setHasSearched] = useState(false);
 
-  // --- 2. EXTRACT DATA FOR DROPDOWNS ---
-  // Get unique brands from your data
-  const brands = ['All', ...new Set(vehicles.map(v => v.brand))];
-  // Get unique years and sort them descending
-  const years = ['All', ...new Set(vehicles.map(v => v.modelYear))].sort((a, b) => b - a);
+  // --- 2. FETCH DATA FROM API ---
+  useEffect(() => {
+    const fetchVehicles = async () => {
+      try {
+        const response = await fetch('http://localhost:5000/api/vehicles');
+        if (!response.ok) throw new Error("Failed to fetch");
+        const data = await response.json();
+        setVehicles(data);
+      } catch (error) {
+        console.error("Error loading vehicles:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  // --- 3. HANDLE SEARCH BUTTON CLICK ---
+    fetchVehicles();
+  }, []);
+
+  // --- 3. EXTRACT DATA FOR DROPDOWNS (Derived from API Data) ---
+  // Get unique brands
+  const brands = ['All', ...new Set(vehicles.map(v => v.brand || 'Unknown'))];
+  // Get unique years and sort descending
+  const years = ['All', ...new Set(vehicles.map(v => v.modelYear))].filter(y => y).sort((a, b) => b - a);
+
+  // --- 4. HANDLE SEARCH BUTTON CLICK ---
   const handleSearch = () => {
     const filtered = vehicles.filter((vehicle) => {
       if (filters.brand !== 'All' && vehicle.brand !== filters.brand) return false;
@@ -33,21 +53,30 @@ const Home = () => {
     setHasSearched(true);
   };
 
-  // Filter new arrivals based on curated metadata
+  // Filter new arrivals based on live data
   const newArrivals = vehicles.filter(v => v.isNewArrival).slice(0, 3);
+
+  // Loading Screen (Optional, keeps UI clean while fetching)
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-brand-surface">
+        <p className="text-brand-primary animate-pulse">Loading amazing cars...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="bg-brand-surface">
       {/* 1. Hero Section */}
       <div className="relative isolate overflow-hidden bg-brand-primary text-white">
         <div className="absolute inset-0">
-          <img
-            src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&q=80&w=1400"
-            alt="Hero"
-            className="h-full w-full object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-brand-primary/90 via-brand-primary/75 to-brand-primary/60" />
-        </div>
+           <img
+             src="src/assets/dealershiphero.jpg"
+             alt="Hero"
+             className="h-full w-full object-cover"
+           />
+         <div className="absolute inset-0 bg-gradient-to-r from-brand-primary/80 via-brand-primary/60 to-brand-primary/40" />
+      </div>
 
         <div className="relative mx-auto flex max-w-6xl flex-col gap-10 px-4 py-24 sm:px-6 md:flex-row md:items-end md:justify-between lg:px-8">
           <div className="max-w-2xl text-center md:text-left">
@@ -87,7 +116,7 @@ const Home = () => {
             </div>
             <div>
               <p className="text-3xl font-semibold">48 hr</p>
-              <p className="text-sm text-white/70">Average financing turnaround</p>
+              <p className="text-sm text-white/70">Average financing turn-around</p>
             </div>
             <div>
               <p className="text-3xl font-semibold">98%</p>
@@ -194,7 +223,7 @@ const Home = () => {
           <div className="mt-8 grid gap-8 sm:grid-cols-2 xl:grid-cols-3">
             {searchResults.length > 0 ? (
               searchResults.map((vehicle) => (
-                <VehicleCard key={vehicle.id} vehicle={vehicle} />
+                <VehicleCard key={vehicle._id || vehicle.id} vehicle={vehicle} />
               ))
             ) : (
               <div className="rounded-2xl border border-dashed border-brand-muted/60 bg-white p-8 text-center text-sm text-slate-500">
@@ -221,7 +250,8 @@ const Home = () => {
 
         <div className="mt-10 grid gap-8 sm:grid-cols-2 xl:grid-cols-3">
           {newArrivals.map((vehicle) => (
-            <VehicleCard key={vehicle.id} vehicle={vehicle} />
+            // Use MongoDB _id if available, fallback to id for legacy data
+            <VehicleCard key={vehicle._id || vehicle.id} vehicle={vehicle} />
           ))}
         </div>
       </section>
@@ -231,7 +261,7 @@ const Home = () => {
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
           <h2 className="text-center text-3xl font-heading font-semibold text-brand-primary">Why Choose Us</h2>
           <p className="mx-auto mt-3 max-w-2xl text-center text-sm text-slate-500">
-            From sourcing to support, every touchpoint is designed around transparency and long-term value.
+            At Ebenezer Car Bazaar & Hire, we deliver trusted vehicles, transparent pricing, and dependable car hire for every journey.
           </p>
           <div className="mt-12 grid gap-8 md:grid-cols-3">
             <div className="rounded-2xl border border-brand-muted/60 bg-brand-surface p-8 text-center shadow-sm">
@@ -239,7 +269,7 @@ const Home = () => {
                 <CheckCircle className="h-8 w-8" />
               </div>
               <h3 className="text-lg font-semibold text-brand-primary">Trusted Dealer</h3>
-              <p className="mt-2 text-sm text-slate-500">Serving the community with integrity and prompt after-sales support.</p>
+              <p className="mt-2 text-sm text-slate-500">Serving the you with integrity and prompt after-sales support.</p>
             </div>
             <div className="rounded-2xl border border-brand-muted/60 bg-brand-surface p-8 text-center shadow-sm">
               <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-brand-accent/10 text-brand-accent">
