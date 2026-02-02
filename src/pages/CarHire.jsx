@@ -1,5 +1,5 @@
 import React from 'react';
-import VehicleCard from '../components/vehicle/VehicleCard';
+import VehicleCardHire from '../components/vehicle/VehicleCardHire';
 import { vehicles } from '../data/vehicles';
 
 const CarHire = () => {
@@ -21,7 +21,7 @@ const CarHire = () => {
         {hireVehicles.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {hireVehicles.map(vehicle => (
-              <VehicleCard key={vehicle.id} vehicle={vehicle} />
+              <VehicleCardHire key={vehicle.id} vehicle={vehicle} />
             ))}
           </div>
         ) : (

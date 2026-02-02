@@ -8,6 +8,9 @@ import Contact from "./pages/Contact";
 import CarHire from "./pages/CarHire";
 import TradeIn from "./pages/TradeIn";
 import VehicleDetails from "./pages/VehicleDetails";
+import VehicleDetailsHire from "./pages/VehicleDetailsHire";
+
+
 
 function App() {
   return (
@@ -20,6 +23,7 @@ function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/inventory" element={<Inventory />} />
           <Route path="/vehicle/:id" element={<VehicleDetails />} />
+          <Route path="/vehicle/hire/:id" element={<VehicleDetailsHire />} />
           <Route path="/car-hire" element={<CarHire />} />
           <Route path="/trade-in" element={<TradeIn />} />
         </Routes>

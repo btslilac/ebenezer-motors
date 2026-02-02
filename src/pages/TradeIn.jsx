@@ -49,21 +49,21 @@ const TradeIn = () => {
 
               {/* Section 2: Contact Info */}
               <div className="pt-4">
-                <h3 className="text-lg font-bold text-brand-primary mb-4 border-b pb-2">Your Contact Info</h3>
+                <h3 className="text-lg font-bold text-grey mb-4 border-b pb-2">Your Contact Info</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-1">Full Name</label>
+                    <label className="block text-sm font-medium text-grey mb-1">Full Name</label>
                     <input type="text" className="w-full rounded-lg border border-slate-300 px-4 py-3 focus:border-brand-accent focus:ring-1 focus:ring-brand-accent outline-none" />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-1">Phone Number</label>
+                    <label className="block text-sm font-medium text-grey mb-1">Phone Number</label>
                     <input type="tel" className="w-full rounded-lg border border-slate-300 px-4 py-3 focus:border-brand-accent focus:ring-1 focus:ring-brand-accent outline-none" />
                   </div>
                 </div>
               </div>
 
               <div className="pt-6">
-                <button type="submit" className="w-full bg-brand-accent text-white font-bold text-lg py-4 rounded-xl hover:bg-brand-accentLight transition shadow-lg hover:shadow-xl">
+                <button type="submit" className="w-full bg-brand-accent text-grey font-bold text-lg py-4 rounded-xl hover:bg-brand-accentLight transition shadow-lg hover:shadow-xl">
                   Get Free Valuation
                 </button>
               </div>

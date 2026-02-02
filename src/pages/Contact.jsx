@@ -46,10 +46,11 @@ const Contact = () => {
               />
               <button
                 type="submit"
-                className="w-full rounded-full bg-brand-accent px-6 py-3 text-sm font-semibold text-white transition hover:bg-brand-accentLight"
+                className="w-full rounded-full bg-muted px-6 py-3 text-sm font-semibold text-black transition hover:bg-accentDark"
               >
                 Send Message
               </button>
+              {/* I need to add pop up that says success */}
             </form>
           </div>
 
