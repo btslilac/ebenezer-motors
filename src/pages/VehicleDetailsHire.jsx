@@ -6,7 +6,7 @@ import {
 } from 'lucide-react';
 import { vehicles } from '../data/vehicles'; // Import Local Data
 
-const VehicleDetails = () => {
+const VehicleDetailsHire = () => {
   const { id } = useParams();
   const [activeImage, setActiveImage] = useState(0);
 
@@ -181,14 +181,19 @@ const VehicleDetails = () => {
               </div>
 
               <div className="mb-8 p-4 bg-brand-surface rounded-xl border border-brand-accent/20">
-                <p className="text-xs uppercase text-slate-500 font-bold tracking-widest mb-1">Cash Price</p>
-                <p className="text-3xl font-bold text-brand-accent">Ksh {vehicle.price?.toLocaleString()}</p>
+                <p className="text-xs uppercase text-slate-500 font-bold tracking-widest mb-1">One Day Hiring Price</p>
+                <p className="text-3xl font-bold text-brand-accent">Ksh {vehicle.hirePrice?.toLocaleString()}</p>
+                
+              </div>
+              <div className="mb-8 p-4 bg-brand-surface rounded-xl border border-brand-accent/20">
+                <p className="text-xs uppercase text-slate-500 font-bold tracking-widest mb-1">Weekly Hiring Price</p>
+                <p className="text-3xl font-bold text-brand-accent">Ksh {vehicle.hirePriceWeekly?.toLocaleString()}</p>
                 
               </div>
 
               <div className="space-y-3">
                 <a 
-                    href={`https://wa.me/254704287382?text=Hi, I am interested in the ${vehicle.name} listed for Ksh ${vehicle.price?.toLocaleString()}`}
+                    href={`https://wa.me/254704287382?text=Hi, I am interested in the ${vehicle.name} listed for Ksh ${vehicle.hirePrice?.toLocaleString()}`}
                     target="_blank"
                     rel="noreferrer"
                     className="w-full bg-green-600 text-grey font-bold py-4 rounded-xl hover:bg-green-700 transition flex items-center justify-center gap-2 shadow-lg shadow-green-200"
@@ -211,4 +216,4 @@ const VehicleDetails = () => {
   );
 };
 
-export default VehicleDetails;
+export default VehicleDetailsHire;

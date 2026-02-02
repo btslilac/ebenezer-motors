@@ -1,15 +1,14 @@
 import React from 'react';
-import { Fuel, Gauge, Settings, Zap } from 'lucide-react'; // Icons [cite: 8]
+import { Fuel, Gauge, Settings, Zap } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
-const VehicleCard = ({ vehicle }) => {
-  // [cite: 132] Wireframe layout implementation
+const VehicleCardHire = ({ vehicle }) => {
   const categoryLabel = vehicle.category ?? "Featured";
   return (
     <div className="flex h-full flex-col overflow-hidden rounded-2xl border border-brand-muted/60 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-elevated">
       {/* Image Section  */}
       <div className="relative aspect-[4/3] w-full overflow-hidden">
-      <Link to= {`/vehicle/${vehicle.id}`}>
+      <Link to= {`/vehicle/hire/${vehicle.id}`}>
         <img
           src={vehicle.images[0]}
           alt={vehicle.name}
@@ -17,12 +16,12 @@ const VehicleCard = ({ vehicle }) => {
         />
         </Link>
         <div className="absolute left-4 top-4 inline-flex items-center rounded-full bg-brand-accent px-3 py-1 text-xs font-semibold uppercase tracking-wide text-white shadow-sm">
-          {vehicle.condition || "Used"}
+          {vehicle.condition || ""}
         </div>
         <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-black/60 to-transparent" />
         <div className="absolute bottom-4 left-4 text-white">
           <p className="text-xs uppercase tracking-[0.3em] text-white/70"></p>
-          <p className="text-2xl font-semibold">Ksh {vehicle.price.toLocaleString()}</p>
+         { /*<p className="text-2xl font-semibold">Ksh {vehicle.id.toLocaleString()}</p>*/}
         </div>
       </div>
 
@@ -31,7 +30,7 @@ const VehicleCard = ({ vehicle }) => {
         <div>
           <h3 className="text-lg font-heading font-semibold text-brand-primary">{vehicle.name}</h3>
           <p className="mt-1 text-sm text-slate-500">
-            {vehicle.modelYear} • {categoryLabel}
+            {vehicle.modelYear}  •  {categoryLabel}
           </p>
         </div>
 
@@ -58,7 +57,7 @@ const VehicleCard = ({ vehicle }) => {
         {/* Action Buttons [cite: 140] */}
         <div className="mt-auto flex gap-3">
           <Link
-            to={`/vehicle/${vehicle.id}`}
+            to={`/vehicle/hire/${vehicle.id}`}
             className="flex-1 rounded-full bg-brand-accent px-4 py-2 text-center text-sm font-semibold text-white transition hover:bg-brand-accentLight"
           >
             View Details
@@ -70,4 +69,4 @@ const VehicleCard = ({ vehicle }) => {
   );
 };
 
-export default VehicleCard;
+export default VehicleCardHire;

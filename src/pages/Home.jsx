@@ -41,13 +41,14 @@ const Home = () => {
       {/* 1. Hero Section */}
       <div className="relative isolate overflow-hidden bg-brand-primary text-white">
         <div className="absolute inset-0">
-          <img
-            src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&q=80&w=1400"
-            alt="Hero"
-            className="h-full w-full object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-brand-primary/90 via-brand-primary/75 to-brand-primary/60" />
-        </div>
+           <img
+            src="src/assets/dealershiphero.jpg"
+             alt="Hero"
+              className="h-full w-full object-cover"
+           />
+         <div className="absolute inset-0 bg-gradient-to-r from-brand-primary/80 via-brand-primary/60 to-brand-primary/40" />
+      </div>
+
 
         <div className="relative mx-auto flex max-w-6xl flex-col gap-10 px-4 py-24 sm:px-6 md:flex-row md:items-end md:justify-between lg:px-8">
           <div className="max-w-2xl text-center md:text-left">
@@ -87,7 +88,7 @@ const Home = () => {
             </div>
             <div>
               <p className="text-3xl font-semibold">48 hr</p>
-              <p className="text-sm text-white/70">Average financing turnaround</p>
+              <p className="text-sm text-white/70">Average financing turn-around</p>
             </div>
             <div>
               <p className="text-3xl font-semibold">98%</p>
@@ -231,7 +232,7 @@ const Home = () => {
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
           <h2 className="text-center text-3xl font-heading font-semibold text-brand-primary">Why Choose Us</h2>
           <p className="mx-auto mt-3 max-w-2xl text-center text-sm text-slate-500">
-            From sourcing to support, every touchpoint is designed around transparency and long-term value.
+            At Ebenezer Car Bazaar & Hire, we deliver trusted vehicles, transparent pricing, and dependable car hire for every journey.
           </p>
           <div className="mt-12 grid gap-8 md:grid-cols-3">
             <div className="rounded-2xl border border-brand-muted/60 bg-brand-surface p-8 text-center shadow-sm">
@@ -239,7 +240,7 @@ const Home = () => {
                 <CheckCircle className="h-8 w-8" />
               </div>
               <h3 className="text-lg font-semibold text-brand-primary">Trusted Dealer</h3>
-              <p className="mt-2 text-sm text-slate-500">Serving the community with integrity and prompt after-sales support.</p>
+              <p className="mt-2 text-sm text-slate-500">Serving the you with integrity and prompt after-sales support.</p>
             </div>
             <div className="rounded-2xl border border-brand-muted/60 bg-brand-surface p-8 text-center shadow-sm">
               <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-brand-accent/10 text-brand-accent">

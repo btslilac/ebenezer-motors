@@ -19,7 +19,7 @@ const Footer = () => {
               <span className="font-bold text-xl tracking-tight">EBENEZAR CAR BAZAAR</span>
             </div>
             <p className="text-sm text-gray-400">
-              Your trusted partner for quality local used cars, and reliable car hire services. Experience the difference today.
+              Your trusted partner for quality locally used cars, and reliable car hire services. Experience the difference today.
             </p>
             <div className="flex space-x-4 pt-2">
               <a href="#" className="hover:text-blue-500 transition"><Facebook size={20} /></a>
@@ -56,7 +56,7 @@ const Footer = () => {
             <ul className="space-y-4">
               <li className="flex items-start gap-3">
                 <MapPin className="text-blue-600 mt-1 flex-shrink-0" size={18} />
-                <span><a href="https://maps.app.goo.gl/9WAwbNPDyjxEHJSX8" className="hover:text-blue-500 transition">38 Ondiek Highway,</a><br />Kisumu, Kenya</span>
+                <span><a href="https://maps.app.goo.gl/uwXf7mUBFUQb6JaF9" className="hover:text-blue-500 transition">38 Ondiek Highway,</a><br />Kisumu, Kenya</span>
               </li>
               <li className="flex items-center gap-3">
                 <Phone className="text-blue-600 flex-shrink-0" size={18} />
