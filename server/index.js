@@ -53,4 +53,19 @@ app.post('/api/vehicles', async (req, res) => {
   }
 });
 
+
+app.delete('/api/vehicles/:id', async (req, res) => {
+  try {
+    const deletedVehicle = await Vehicle.findByIdAndDelete(req.params.id);
+
+    if (!deletedVehicle) {
+      return res.status(404).json({ error: 'Vehicle not found' });
+    }
+
+    res.json({ message: 'Vehicle deleted successfully', id: deletedVehicle._id });
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+});
+
 app.listen(PORT, () => console.log(`🚀 Server running on http://localhost:${PORT}`));

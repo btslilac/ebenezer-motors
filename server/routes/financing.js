@@ -28,7 +28,7 @@ router.post('/', (req, res) => {
     }
 
     try {
-      const { totalAmount, deposit } = req.body;
+      const { totalAmount, deposit, paymentHistory: _ignoredPaymentHistory, ...safeBody } = req.body;
 
       // 2. Enforce 20% Deposit
       if (Number(deposit) < Number(totalAmount) * 0.2) {
@@ -36,9 +36,27 @@ router.post('/', (req, res) => {
         return res.status(400).json({ message: 'Minimum 20% deposit required' });
       }
 
-      // 3. Create Record
+      // 3. Normalize and validate payload before save
+      const normalizedIdentificationNo = String(req.body.identificationNo || '').trim();
+      if (!normalizedIdentificationNo) {
+        if (req.file) fs.unlinkSync(req.file.path);
+        return res.status(400).json({ message: 'ID Number is required' });
+      }
+
+      const normalizedPayload = {
+        ...safeBody,
+        customerName: String(req.body.customerName || '').trim(),
+        phone: String(req.body.phone || '').trim(),
+        identificationNo: normalizedIdentificationNo,
+        address: String(req.body.address || '').trim(),
+        occupation: String(req.body.occupation || '').trim(),
+        totalAmount: Number(totalAmount),
+        deposit: Number(deposit),
+        paidAmount: Number(deposit)
+      };
+
       const financing = new Financing({
-        ...req.body,
+        ...normalizedPayload,
         agreementFile: req.file ? `/uploads/agreements/${req.file.filename}` : null,
         paymentHistory: [{
             date: new Date(),
