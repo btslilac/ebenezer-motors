@@ -28,7 +28,10 @@ router.post('/', (req, res) => {
     }
 
     try {
+      const { totalAmount, deposit, paymentHistory: _ignoredPaymentHistory, ...safeBody } = req.body;
+
       const { totalAmount, deposit } = req.body;
+
 
       // 2. Enforce 20% Deposit
       if (Number(deposit) < Number(totalAmount) * 0.2) {
@@ -44,7 +47,10 @@ router.post('/', (req, res) => {
       }
 
       const normalizedPayload = {
+
+        ...safeBody,
         ...req.body,
+
         customerName: String(req.body.customerName || '').trim(),
         phone: String(req.body.phone || '').trim(),
         identificationNo: normalizedIdentificationNo,
