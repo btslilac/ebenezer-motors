@@ -51,6 +51,7 @@ npm --version
 ## Backend Setup (Node/Express + MongoDB)
 
 The backend lives in the `server` folder and exposes REST APIs for vehicles, contact messages, trade-ins, hire requests, and admin authentication.
+See [server/README.md](server/README.md) for the step-by-step commands and environment setup.
 
 1. **Install backend dependencies**:
 	```
