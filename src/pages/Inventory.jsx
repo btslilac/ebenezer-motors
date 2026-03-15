@@ -1,16 +1,46 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import VehicleCard from '../components/vehicle/VehicleCard';
-import { vehicles } from '../data/vehicles';
-import { Search, SlidersHorizontal, X } from 'lucide-react';
+import { Search, SlidersHorizontal } from 'lucide-react';
+import { getVehicles } from '../services/vehicleApi';
 
 const Inventory = () => {
   // 1. State Management
+  const [vehicles, setVehicles] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedBrand, setSelectedBrand] = useState("All");
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [selectedFuel, setSelectedFuel] = useState("All");
   const [sortOption, setSortOption] = useState("newest"); // 'price-low', 'price-high', 'newest'
   const [showMobileFilters, setShowMobileFilters] = useState(false);
+
+  useEffect(() => {
+    let isMounted = true;
+    const loadVehicles = async () => {
+      try {
+        setLoading(true);
+        const response = await getVehicles({ limit: 200 });
+        if (isMounted) {
+          setVehicles(response?.data || []);
+          setLoadError("");
+        }
+      } catch (error) {
+        if (isMounted) {
+          setLoadError(error.message || "Failed to load vehicles");
+        }
+      } finally {
+        if (isMounted) {
+          setLoading(false);
+        }
+      }
+    };
+
+    loadVehicles();
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   // 2. Extract unique options dynamically from data
   const brands = ["All", ...new Set(vehicles.map(v => v.brand))];
@@ -57,7 +87,9 @@ const Inventory = () => {
       <div className="flex justify-between items-end mb-6">
         <div>
           <h1 className="text-3xl font-bold text-gray-900">Inventory</h1>
-          <p className="text-gray-500 mt-1">{filteredVehicles.length} vehicles available</p>
+          <p className="text-gray-500 mt-1">
+            {loading ? "Loading inventory..." : `${filteredVehicles.length} vehicles available`}
+          </p>
         </div>
         <button 
           className="md:hidden flex items-center gap-2 border px-4 py-2 rounded-lg"
@@ -130,15 +162,27 @@ const Inventory = () => {
             </select>
           </div>
 
+          {loadError && (
+            <div className="mb-6 rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-700">
+              {loadError}
+            </div>
+          )}
+
           {/* Grid Results */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredVehicles.map((vehicle) => (
-              <VehicleCard key={vehicle.id} vehicle={vehicle} />
-            ))}
-          </div>
+          {loading ? (
+            <div className="rounded-lg border border-dashed border-gray-200 bg-white py-12 text-center text-sm text-gray-500">
+              Loading vehicles...
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {filteredVehicles.map((vehicle) => (
+                <VehicleCard key={vehicle._id || vehicle.id} vehicle={vehicle} />
+              ))}
+            </div>
+          )}
 
           {/* Empty State */}
-          {filteredVehicles.length === 0 && (
+          {!loading && filteredVehicles.length === 0 && (
             <div className="text-center py-12 bg-white rounded-lg border border-dashed">
               <Search className="mx-auto h-12 w-12 text-gray-400" />
               <h3 className="mt-2 text-sm font-semibold text-gray-900">No vehicles found</h3>

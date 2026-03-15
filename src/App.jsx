@@ -9,6 +9,7 @@ import CarHire from "./pages/CarHire";
 import TradeIn from "./pages/TradeIn";
 import VehicleDetails from "./pages/VehicleDetails";
 import VehicleDetailsHire from "./pages/VehicleDetailsHire";
+import Admin from "./pages/Admin";
 
 
 
@@ -26,6 +27,7 @@ function App() {
           <Route path="/vehicle/hire/:id" element={<VehicleDetailsHire />} />
           <Route path="/car-hire" element={<CarHire />} />
           <Route path="/trade-in" element={<TradeIn />} />
+          <Route path="/admin" element={<Admin />} />
         </Routes>
       </main>
 

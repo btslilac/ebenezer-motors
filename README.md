@@ -48,6 +48,46 @@ npm --version
 | `npm run preview` | Serve the production build locally. Run `npm run build` first. |
 | `npm run lint`    | Run ESLint across the project. Add `-- --fix` to auto-fix. |
 
+## Backend Setup (Node/Express + MongoDB)
+
+The backend lives in the `server` folder and exposes REST APIs for vehicles, contact messages, trade-ins, hire requests, and admin authentication.
+
+1. **Install backend dependencies**:
+	```
+	cd server
+	npm install
+	```
+2. **Configure environment**:
+	```
+	copy .env.example .env
+	```
+	Update `MONGODB_URI`, `JWT_SECRET`, and storage settings.
+3. **Run the backend**:
+	```
+	npm run dev
+	```
+	The API listens on `http://localhost:5000` by default.
+
+### Storage Options
+
+Set `STORAGE_DRIVER=s3` to use S3-compatible storage (AWS S3, Cloudflare R2, etc.). Provide `S3_ENDPOINT` for R2 and set `S3_PUBLIC_BASE_URL` for public URLs.
+
+Set `STORAGE_DRIVER=local` to save uploads in `server/uploads` (served at `/uploads`).
+
+### Seeding Vehicles
+
+```
+npm run seed
+```
+
+## Admin Console
+
+Visit `/admin` in the frontend to access the admin dashboard. Create the first admin using the registration key (`ADMIN_REGISTRATION_KEY`).
+
+## Frontend Environment
+
+Copy `.env.example` in the project root and set `VITE_API_BASE_URL` to your backend URL.
+
 ## Project Structure
 
 ```

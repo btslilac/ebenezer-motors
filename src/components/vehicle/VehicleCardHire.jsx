@@ -4,13 +4,15 @@ import { Link } from 'react-router-dom';
 
 const VehicleCardHire = ({ vehicle }) => {
   const categoryLabel = vehicle.category ?? "Featured";
+  const imageUrl = vehicle.images?.[0] || "https://via.placeholder.com/800x600?text=No+Image+Available";
+  const vehicleId = vehicle._id || vehicle.id;
   return (
     <div className="flex h-full flex-col overflow-hidden rounded-2xl border border-brand-muted/60 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-elevated">
       {/* Image Section  */}
       <div className="relative aspect-[4/3] w-full overflow-hidden">
-      <Link to= {`/vehicle/hire/${vehicle.id}`}>
+      <Link to= {`/vehicle/hire/${vehicleId}`}>
         <img
-          src={vehicle.images[0]}
+          src={imageUrl}
           alt={vehicle.name}
           className="h-full w-full object-cover"
         />
@@ -50,14 +52,14 @@ const VehicleCardHire = ({ vehicle }) => {
           </div>
           <div className="flex items-center gap-2">
             <Gauge size={16} className="text-brand-accent" />
-            <span>{vehicle.mileage.toLocaleString()} km</span>
+            <span>{vehicle.mileage ? `${vehicle.mileage.toLocaleString()} km` : "N/A"}</span>
           </div>
         </div>
 
         {/* Action Buttons [cite: 140] */}
         <div className="mt-auto flex gap-3">
           <Link
-            to={`/vehicle/hire/${vehicle.id}`}
+            to={`/vehicle/hire/${vehicleId}`}
             className="flex-1 rounded-full bg-brand-accent px-4 py-2 text-center text-sm font-semibold text-white transition hover:bg-brand-accentLight"
           >
             View Details

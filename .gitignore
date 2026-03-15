@@ -1,6 +1,7 @@
 node_modules/
 dist/
 .env
+server/uploads/
 .DS_Store
 .vscode/
 coverage/

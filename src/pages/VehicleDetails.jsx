@@ -1,24 +1,64 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { 
   ArrowLeft, Calendar, Gauge, Fuel, Zap, Settings, 
   Check, Phone, MessageCircle, MapPin, Fingerprint, Info 
 } from 'lucide-react';
-import { vehicles } from '../data/vehicles'; // Import Local Data
+import { getVehicleById } from '../services/vehicleApi';
 
 const VehicleDetails = () => {
   const { id } = useParams();
   const [activeImage, setActiveImage] = useState(0);
+  const [vehicle, setVehicle] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState("");
 
-  // 1. Find Vehicle Locally
-  // We use .toString() to ensure matching works even if IDs are numbers
-  const vehicle = vehicles.find((car) => car.id.toString() === id);
+  useEffect(() => {
+    let isMounted = true;
+    const loadVehicle = async () => {
+      try {
+        setLoading(true);
+        const response = await getVehicleById(id);
+        if (isMounted) {
+          setVehicle(response?.data || null);
+          setLoadError("");
+          setActiveImage(0);
+        }
+      } catch (error) {
+        if (isMounted) {
+          setLoadError(error.message || "Unable to load vehicle");
+          setVehicle(null);
+        }
+      } finally {
+        if (isMounted) {
+          setLoading(false);
+        }
+      }
+    };
+
+    if (id) {
+      loadVehicle();
+    }
+    return () => {
+      isMounted = false;
+    };
+  }, [id]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center gap-4 bg-slate-50">
+        <h1 className="text-2xl font-bold text-gray-700">Loading vehicle...</h1>
+      </div>
+    );
+  }
 
   if (!vehicle) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center gap-4 bg-slate-50">
         <h1 className="text-2xl font-bold text-gray-700">Vehicle Not Found</h1>
-        <p className="text-gray-500">The vehicle you are looking for does not exist in our local inventory.</p>
+        <p className="text-gray-500">
+          {loadError || "The vehicle you are looking for does not exist in our inventory."}
+        </p>
         <Link to="/inventory" className="px-6 py-2 bg-brand-accent text-white rounded-full hover:bg-brand-accentLight transition">
           Return to Inventory
         </Link>
