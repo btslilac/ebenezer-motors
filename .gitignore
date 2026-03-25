@@ -27,4 +27,9 @@ yarn-error.log*
 *.log
 *.tsbuildinfo
 .cache/
+<<<<<<< HEAD
 >>>>>>> fd93382 (Updated Version)
+=======
+.vercel
+.env*.local
+>>>>>>> 65fa386 (Vercel update)

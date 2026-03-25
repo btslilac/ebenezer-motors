@@ -1,6 +1,9 @@
 import dotenv from "dotenv";
 
-dotenv.config();
+// Only load .env file when running locally — Vercel injects env vars from the dashboard
+if (process.env.NODE_ENV !== "production") {
+  dotenv.config();
+}
 
 const config = {
   nodeEnv: process.env.NODE_ENV || "development",
