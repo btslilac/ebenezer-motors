@@ -1,0 +1,14 @@
+node_modules/
+dist/
+.env
+server/uploads/
+.DS_Store
+.vscode/
+coverage/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.idea/
+*.log
+*.tsbuildinfo
+.cache/

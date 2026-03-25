@@ -1,4 +1,8 @@
 @import "tailwindcss";
+<<<<<<< HEAD
+=======
+@config "../tailwind.config.js";
+>>>>>>> fd93382 (Updated Version)
 
 #root {
   min-height: 100vh;

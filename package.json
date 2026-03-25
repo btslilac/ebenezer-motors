@@ -5,9 +5,18 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+<<<<<<< HEAD
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview"
+=======
+    "dev:server": "npm --prefix server run dev",
+    "build": "vite build",
+    "vercel-build": "vite build",
+    "lint": "eslint .",
+    "preview": "vite preview",
+    "seed": "npm --prefix server run seed"
+>>>>>>> fd93382 (Updated Version)
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.18",

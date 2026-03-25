@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 node_modules/
 dist/
 .env
@@ -11,3 +12,19 @@ yarn-error.log*
 *.log
 *.tsbuildinfo
 .cache/
+=======
+node_modules/
+dist/
+.env
+server/uploads/
+.DS_Store
+.vscode/
+coverage/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.idea/
+*.log
+*.tsbuildinfo
+.cache/
+>>>>>>> fd93382 (Updated Version)
