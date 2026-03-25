@@ -1,3 +1,9 @@
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+# EbenezarCarBazaar
+=======
+>>>>>>> eaec4ba (first commit)
 # Ebenezer Motors Web App
 
 Modern React single-page application for showcasing vehicle inventory, car hire services, and trade-in options for Ebenezer Motors.
@@ -48,6 +54,50 @@ npm --version
 | `npm run preview` | Serve the production build locally. Run `npm run build` first. |
 | `npm run lint`    | Run ESLint across the project. Add `-- --fix` to auto-fix. |
 
+<<<<<<< HEAD
+=======
+## Backend Setup (Node/Express + MongoDB)
+
+The backend lives in the `server` folder and exposes REST APIs for vehicles, contact messages, trade-ins, hire requests, and admin authentication.
+See [server/README.md](server/README.md) for the step-by-step commands and environment setup.
+
+1. **Install backend dependencies**:
+	```
+	cd server
+	npm install
+	```
+2. **Configure environment**:
+	```
+	copy .env.example .env
+	```
+	Update `MONGODB_URI`, `JWT_SECRET`, and storage settings.
+3. **Run the backend**:
+	```
+	npm run dev
+	```
+	The API listens on `http://localhost:5000` by default.
+
+### Storage Options
+
+Set `STORAGE_DRIVER=s3` to use S3-compatible storage (AWS S3, Cloudflare R2, etc.). Provide `S3_ENDPOINT` for R2 and set `S3_PUBLIC_BASE_URL` for public URLs.
+
+Set `STORAGE_DRIVER=local` to save uploads in `server/uploads` (served at `/uploads`).
+
+### Seeding Vehicles
+
+```
+npm run seed
+```
+
+## Admin Console
+
+Visit `/admin` in the frontend to access the admin dashboard. Create the first admin using the registration key (`ADMIN_REGISTRATION_KEY`).
+
+## Frontend Environment
+
+Copy `.env.example` in the project root and set `VITE_API_BASE_URL` to your backend URL.
+
+>>>>>>> eaec4ba (first commit)
 ## Project Structure
 
 ```
@@ -102,3 +152,8 @@ Deploy the `dist` folder to your static hosting provider (Netlify, Vercel, Azure
 - Corrected the Vehicle Details import in [src/pages/VehicleDetails.jsx](src/pages/VehicleDetails.jsx#L1-L33) to use the named `vehicles` export, fixing the production build failure and ensuring vehicle data loads.
 - Replaced the Home search redirect with an in-place results preview by adding local filter state and a `Matching Vehicles` section below the controls [src/pages/Home.jsx](src/pages/Home.jsx#L7-L205). Users now see filtered cards instantly, along with a clear-filters action.
 - Verified the updated bundle with `npm run build`, confirming the app compiles without errors.
+<<<<<<< HEAD
+=======
+>>>>>>> 36dc133 (First Commit for the Web App)
+"# ebenezarcarbazaarksm" 
+>>>>>>> eaec4ba (first commit)
