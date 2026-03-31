@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
 <<<<<<< HEAD
+<<<<<<< HEAD
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview"
@@ -17,6 +18,13 @@
     "preview": "vite preview",
     "seed": "npm --prefix server run seed"
 >>>>>>> fd93382 (Updated Version)
+=======
+    "dev:server": "npm --prefix server run dev",
+    "build": "vite build",
+    "lint": "eslint .",
+    "preview": "vite preview",
+    "seed": "npm --prefix server run seed"
+>>>>>>> 7034c1fac89f4f63c0af4e4afea5fd639dbfbe32
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.18",

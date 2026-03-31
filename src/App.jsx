@@ -10,9 +10,13 @@ import TradeIn from "./pages/TradeIn";
 import VehicleDetails from "./pages/VehicleDetails";
 import VehicleDetailsHire from "./pages/VehicleDetailsHire";
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 import Admin from "./pages/Admin";
 >>>>>>> fd93382 (Updated Version)
+=======
+import Admin from "./pages/Admin";
+>>>>>>> 7034c1fac89f4f63c0af4e4afea5fd639dbfbe32
 
 
 
@@ -31,9 +35,13 @@ function App() {
           <Route path="/car-hire" element={<CarHire />} />
           <Route path="/trade-in" element={<TradeIn />} />
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
           <Route path="/admin" element={<Admin />} />
 >>>>>>> fd93382 (Updated Version)
+=======
+          <Route path="/admin" element={<Admin />} />
+>>>>>>> 7034c1fac89f4f63c0af4e4afea5fd639dbfbe32
         </Routes>
       </main>
 

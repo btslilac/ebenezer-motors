@@ -35,6 +35,7 @@ export const fetchHireRequests = () => {
 export const updateHireRequest = (id, payload) => {
   return apiRequest(`/api/hire-requests/${id}`, { method: "PATCH", body: payload, auth: true });
 };
+<<<<<<< HEAD
 
 // ── Financing Clients ─────────────────────────────────────────────────────────
 export const fetchFinancingClients = () =>
@@ -58,3 +59,5 @@ export const updateFinancingRecord = (id, payload) =>
 
 export const addFinancingPayment = (recordId, payload) =>
   apiRequest(`/api/financing/records/${recordId}/payments`, { method: "POST", body: payload, auth: true });
+=======
+>>>>>>> 7034c1fac89f4f63c0af4e4afea5fd639dbfbe32

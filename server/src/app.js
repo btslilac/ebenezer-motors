@@ -12,7 +12,10 @@ import contactRoutes from "./routes/contacts.js";
 import tradeInRoutes from "./routes/tradeIns.js";
 import hireRoutes from "./routes/hireRequests.js";
 import adminRoutes from "./routes/admin.js";
+<<<<<<< HEAD
 import financingRoutes from "./routes/financing.js";
+=======
+>>>>>>> 7034c1fac89f4f63c0af4e4afea5fd639dbfbe32
 import { errorHandler, notFoundHandler } from "./middleware/errorHandler.js";
 
 const app = express();
@@ -43,7 +46,10 @@ app.use("/api/contacts", contactRoutes);
 app.use("/api/trade-ins", tradeInRoutes);
 app.use("/api/hire-requests", hireRoutes);
 app.use("/api/admin", adminRoutes);
+<<<<<<< HEAD
 app.use("/api/financing", financingRoutes);
+=======
+>>>>>>> 7034c1fac89f4f63c0af4e4afea5fd639dbfbe32
 
 app.use(notFoundHandler);
 app.use(errorHandler);

@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from "react";
+<<<<<<< HEAD
 import { ChevronDown } from "lucide-react";
+=======
+>>>>>>> 7034c1fac89f4f63c0af4e4afea5fd639dbfbe32
 import {
   adminLogin,
   adminRegister,
@@ -9,6 +12,7 @@ import {
   fetchHireRequests,
   updateContact,
   updateTradeIn,
+<<<<<<< HEAD
   updateHireRequest,
   fetchFinancingClients,
   createFinancingClient,
@@ -16,6 +20,9 @@ import {
   createFinancingRecord,
   updateFinancingRecord,
   addFinancingPayment
+=======
+  updateHireRequest
+>>>>>>> 7034c1fac89f4f63c0af4e4afea5fd639dbfbe32
 } from "../services/adminApi";
 import {
   getVehicles,
@@ -77,7 +84,11 @@ const buildVehiclePayload = (form, { includeImages }) => {
     condition: form.condition,
     description: form.description,
     features: form.features
+<<<<<<< HEAD
       ? form.features.split("\n").map((feature) => feature.trim()).filter(Boolean)
+=======
+      ? form.features.split(",").map((feature) => feature.trim()).filter(Boolean)
+>>>>>>> 7034c1fac89f4f63c0af4e4afea5fd639dbfbe32
       : [],
     isNewArrival: Boolean(form.isNewArrival),
     forHire: Boolean(form.forHire)
@@ -109,8 +120,11 @@ const Admin = () => {
   const [contacts, setContacts] = useState([]);
   const [tradeIns, setTradeIns] = useState([]);
   const [hireRequests, setHireRequests] = useState([]);
+<<<<<<< HEAD
   const [financingClients, setFinancingClients] = useState([]);
   const [financingRecords, setFinancingRecords] = useState([]);
+=======
+>>>>>>> 7034c1fac89f4f63c0af4e4afea5fd639dbfbe32
   const [dashboardLoading, setDashboardLoading] = useState(false);
   const [dashboardError, setDashboardError] = useState("");
 
@@ -152,6 +166,7 @@ const Admin = () => {
   const loadDashboardData = async () => {
     try {
       setDashboardLoading(true);
+<<<<<<< HEAD
       const [vehiclesRes, contactsRes, tradeRes, hireRes, finClientsRes, finRecordsRes] = await Promise.all([
         getVehicles({ limit: 200 }),
         fetchContacts(),
@@ -159,13 +174,23 @@ const Admin = () => {
         fetchHireRequests(),
         fetchFinancingClients(),
         fetchFinancingRecords()
+=======
+      const [vehiclesRes, contactsRes, tradeRes, hireRes] = await Promise.all([
+        getVehicles({ limit: 200 }),
+        fetchContacts(),
+        fetchTradeIns(),
+        fetchHireRequests()
+>>>>>>> 7034c1fac89f4f63c0af4e4afea5fd639dbfbe32
       ]);
       setVehicles(vehiclesRes?.data || []);
       setContacts(contactsRes?.data || []);
       setTradeIns(tradeRes?.data || []);
       setHireRequests(hireRes?.data || []);
+<<<<<<< HEAD
       setFinancingClients(finClientsRes?.data || []);
       setFinancingRecords(finRecordsRes?.data || []);
+=======
+>>>>>>> 7034c1fac89f4f63c0af4e4afea5fd639dbfbe32
       setDashboardError("");
     } catch (error) {
       setDashboardError(error.message || "Failed to load admin data.");
@@ -206,7 +231,11 @@ const Admin = () => {
       category: vehicle.category || "",
       condition: vehicle.condition || "",
       description: vehicle.description || "",
+<<<<<<< HEAD
       features: vehicle.features ? vehicle.features.join("\n") : "",
+=======
+      features: vehicle.features ? vehicle.features.join(", ") : "",
+>>>>>>> 7034c1fac89f4f63c0af4e4afea5fd639dbfbe32
       images: "",
       isNewArrival: Boolean(vehicle.isNewArrival),
       forHire: Boolean(vehicle.forHire)
@@ -261,29 +290,50 @@ const Admin = () => {
           </div>
         </div>
 
+<<<<<<< HEAD
         <div className="flex flex-col gap-6">
           <aside className="flex gap-2 overflow-x-auto overflow-y-hidden rounded-2xl border border-brand-muted/60 bg-white p-4 shadow-sm scrollbar-hide">
+=======
+        <div className="grid gap-6 lg:grid-cols-[220px,1fr]">
+          <aside className="rounded-2xl border border-brand-muted/60 bg-white p-4 shadow-sm">
+>>>>>>> 7034c1fac89f4f63c0af4e4afea5fd639dbfbe32
             {[
               { key: "vehicles", label: "Vehicles" },
               { key: "contacts", label: "Contact Messages" },
               { key: "tradeIns", label: "Trade-In Requests" },
+<<<<<<< HEAD
               { key: "hire", label: "Hire Requests" },
               { key: "financing", label: "Financing" }
+=======
+              { key: "hire", label: "Hire Requests" }
+>>>>>>> 7034c1fac89f4f63c0af4e4afea5fd639dbfbe32
             ].map((item) => (
               <button
                 key={item.key}
                 type="button"
                 onClick={() => setActiveTab(item.key)}
+<<<<<<< HEAD
                 className={`flex-1 whitespace-nowrap rounded-xl px-4 py-3 text-center text-sm font-semibold transition ${activeTab === item.key
                   ? "bg-brand-primary text-blue-500"
                   : "bg-brand-surface text-brand-primary hover:bg-blue-muted/40"
                   }`}
+=======
+                className={`mb-2 w-full rounded-xl px-4 py-3 text-left text-sm font-semibold transition ${
+                  activeTab === item.key
+                    ? "bg-brand-primary text-white"
+                    : "bg-brand-surface text-brand-primary hover:bg-brand-muted/40"
+                }`}
+>>>>>>> 7034c1fac89f4f63c0af4e4afea5fd639dbfbe32
               >
                 {item.label}
               </button>
             ))}
           </aside>
+<<<<<<< HEAD
           {/* Vehicle Dashboard Section */}
+=======
+
+>>>>>>> 7034c1fac89f4f63c0af4e4afea5fd639dbfbe32
           <section className="space-y-6">
             {dashboardError && (
               <div className="rounded-2xl border border-red-200 bg-red-50 p-4 text-sm text-red-700">
@@ -291,13 +341,18 @@ const Admin = () => {
               </div>
             )}
             {dashboardLoading && (
+<<<<<<< HEAD
               <div className="rounded-2xl border border-brand-muted/60 bg-white p-6 text-sm text-black">
+=======
+              <div className="rounded-2xl border border-brand-muted/60 bg-white p-6 text-sm text-slate-500">
+>>>>>>> 7034c1fac89f4f63c0af4e4afea5fd639dbfbe32
                 Loading dashboard data...
               </div>
             )}
 
             {!dashboardLoading && activeTab === "vehicles" && (
               <div className="space-y-6">
+<<<<<<< HEAD
                 <CollapsibleSection
                   title={editingVehicleId ? "Edit Vehicle" : "Add Vehicle"}
                   description="Create new listings."
@@ -314,6 +369,27 @@ const Admin = () => {
                     ) : null
                   }
                 >
+=======
+                <div className="rounded-2xl border border-brand-muted/60 bg-white p-6 shadow-sm">
+                  <div className="mb-6 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                    <div>
+                      <h2 className="text-xl font-heading font-semibold text-brand-primary">
+                        {editingVehicleId ? "Edit Vehicle" : "Add Vehicle"}
+                      </h2>
+                      <p className="text-sm text-slate-500">Create new listings or update existing ones.</p>
+                    </div>
+                    {editingVehicleId && (
+                      <button
+                        type="button"
+                        onClick={resetVehicleForm}
+                        className="rounded-full border border-brand-muted/60 px-4 py-2 text-xs font-semibold text-brand-primary hover:border-brand-accent"
+                      >
+                        Cancel edit
+                      </button>
+                    )}
+                  </div>
+
+>>>>>>> 7034c1fac89f4f63c0af4e4afea5fd639dbfbe32
                   <form
                     className="grid gap-4 md:grid-cols-2"
                     onSubmit={async (event) => {
@@ -464,9 +540,15 @@ const Admin = () => {
                       onChange={(event) => setVehicleForm({ ...vehicleForm, description: event.target.value })}
                       className="md:col-span-2 w-full rounded-xl border border-brand-muted px-4 py-3 text-sm focus:border-brand-accent focus:outline-none"
                     />
+<<<<<<< HEAD
                     <textarea
                       rows="3"
                       placeholder="Features (press Enter for a new feature)"
+=======
+                    <input
+                      type="text"
+                      placeholder="Features (comma separated)"
+>>>>>>> 7034c1fac89f4f63c0af4e4afea5fd639dbfbe32
                       value={vehicleForm.features}
                       onChange={(event) => setVehicleForm({ ...vehicleForm, features: event.target.value })}
                       className="md:col-span-2 w-full rounded-xl border border-brand-muted px-4 py-3 text-sm focus:border-brand-accent focus:outline-none"
@@ -516,6 +598,7 @@ const Admin = () => {
                       )}
                     </div>
                   </form>
+<<<<<<< HEAD
                 </CollapsibleSection>
 
                 {editingVehicleId && (
@@ -523,6 +606,13 @@ const Admin = () => {
                     title="Upload Images"
                     defaultOpen={true}
                   >
+=======
+                </div>
+
+                {editingVehicleId && (
+                  <div className="rounded-2xl border border-brand-muted/60 bg-white p-6 shadow-sm">
+                    <h3 className="text-lg font-heading font-semibold text-brand-primary mb-4">Upload Images</h3>
+>>>>>>> 7034c1fac89f4f63c0af4e4afea5fd639dbfbe32
                     <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
                       <input
                         type="file"
@@ -552,6 +642,7 @@ const Admin = () => {
                         Upload
                       </button>
                     </div>
+<<<<<<< HEAD
                   </CollapsibleSection>
                 )}
 
@@ -568,6 +659,22 @@ const Admin = () => {
                     </button>
                   }
                 >
+=======
+                  </div>
+                )}
+
+                <div className="rounded-2xl border border-brand-muted/60 bg-white p-6 shadow-sm">
+                  <div className="flex items-center justify-between mb-4">
+                    <h3 className="text-lg font-heading font-semibold text-brand-primary">Vehicle Inventory</h3>
+                    <button
+                      type="button"
+                      onClick={loadDashboardData}
+                      className="rounded-full border border-brand-muted/60 px-4 py-2 text-xs font-semibold text-brand-primary hover:border-brand-accent"
+                    >
+                      Refresh
+                    </button>
+                  </div>
+>>>>>>> 7034c1fac89f4f63c0af4e4afea5fd639dbfbe32
                   <div className="space-y-3">
                     {vehicles.length === 0 && (
                       <div className="rounded-xl border border-dashed border-brand-muted/60 bg-brand-surface p-6 text-sm text-slate-500">
@@ -616,10 +723,16 @@ const Admin = () => {
                       </div>
                     ))}
                   </div>
+<<<<<<< HEAD
                 </CollapsibleSection>
               </div>
             )}
             {/* Contact Dashboard Section */}
+=======
+                </div>
+              </div>
+            )}
+>>>>>>> 7034c1fac89f4f63c0af4e4afea5fd639dbfbe32
 
             {!dashboardLoading && activeTab === "contacts" && (
               <AdminList
@@ -676,8 +789,14 @@ const Admin = () => {
                     title={item.vehicle?.name || "Vehicle"}
                     subtitle={`${item.name} • ${item.phone}`}
                     status={item.status}
+<<<<<<< HEAD
                     body={`Dates: ${item.startDate ? new Date(item.startDate).toLocaleDateString() : "N/A"} - ${item.endDate ? new Date(item.endDate).toLocaleDateString() : "N/A"
                       }`}
+=======
+                    body={`Dates: ${item.startDate ? new Date(item.startDate).toLocaleDateString() : "N/A"} - ${
+                      item.endDate ? new Date(item.endDate).toLocaleDateString() : "N/A"
+                    }`}
+>>>>>>> 7034c1fac89f4f63c0af4e4afea5fd639dbfbe32
                     onStatusChange={async () => {
                       const response = await updateHireRequest(item._id, { status: "contacted" });
                       setHireRequests((prev) => prev.map((entry) => (entry._id === item._id ? response.data : entry)));
@@ -687,6 +806,7 @@ const Admin = () => {
                 )}
               />
             )}
+<<<<<<< HEAD
 
             {!dashboardLoading && activeTab === "financing" && (
               <FinancingTab
@@ -700,6 +820,8 @@ const Admin = () => {
                 }
               />
             )}
+=======
+>>>>>>> 7034c1fac89f4f63c0af4e4afea5fd639dbfbe32
           </section>
         </div>
       </div>
@@ -743,8 +865,14 @@ const AdminAuth = ({ onAuth }) => {
               key={value}
               type="button"
               onClick={() => setMode(value)}
+<<<<<<< HEAD
               className={`flex-1 rounded-full px-4 py-2 text-sm font-semibold transition ${mode === value ? "bg-brand-primary text-white" : "text-brand-primary"
                 }`}
+=======
+              className={`flex-1 rounded-full px-4 py-2 text-sm font-semibold transition ${
+                mode === value ? "bg-brand-primary text-white" : "text-brand-primary"
+              }`}
+>>>>>>> 7034c1fac89f4f63c0af4e4afea5fd639dbfbe32
             >
               {value === "login" ? "Login" : "Create Admin"}
             </button>
@@ -804,6 +932,7 @@ const AdminAuth = ({ onAuth }) => {
   );
 };
 
+<<<<<<< HEAD
 const CollapsibleSection = ({ title, description, children, defaultOpen = false, actionButton }) => {
   const [isOpen, setIsOpen] = useState(defaultOpen);
 
@@ -850,6 +979,17 @@ const AdminList = ({ title, items, emptyMessage, renderItem }) => {
         </span>
       }
     >
+=======
+const AdminList = ({ title, items, emptyMessage, renderItem }) => {
+  return (
+    <div className="rounded-2xl border border-brand-muted/60 bg-white p-6 shadow-sm">
+      <div className="mb-4 flex items-center justify-between">
+        <h2 className="text-xl font-heading font-semibold text-brand-primary">{title}</h2>
+        <span className="rounded-full bg-brand-surface px-3 py-1 text-xs font-semibold text-slate-500">
+          {items.length} total
+        </span>
+      </div>
+>>>>>>> 7034c1fac89f4f63c0af4e4afea5fd639dbfbe32
       <div className="space-y-3">
         {items.length === 0 && (
           <div className="rounded-xl border border-dashed border-brand-muted/60 bg-brand-surface p-6 text-sm text-slate-500">
@@ -858,7 +998,11 @@ const AdminList = ({ title, items, emptyMessage, renderItem }) => {
         )}
         {items.map(renderItem)}
       </div>
+<<<<<<< HEAD
     </CollapsibleSection>
+=======
+    </div>
+>>>>>>> 7034c1fac89f4f63c0af4e4afea5fd639dbfbe32
   );
 };
 
@@ -870,6 +1014,7 @@ const AdminMessageCard = ({ title, subtitle, status, body, onStatusChange, actio
           <p className="text-sm font-semibold text-brand-primary">{title}</p>
           <p className="text-xs text-slate-500">{subtitle}</p>
         </div>
+<<<<<<< HEAD
         <span className={`rounded-full px-3 py-1 text-xs font-bold tracking-wide uppercase ${
           status?.toLowerCase() === 'read' 
             ? 'bg-red-500 text-white shadow-sm' 
@@ -877,6 +1022,9 @@ const AdminMessageCard = ({ title, subtitle, status, body, onStatusChange, actio
             ? 'bg-brand-accent text-white shadow-sm'
             : 'bg-brand-surface text-slate-500'
         }`}>
+=======
+        <span className="rounded-full bg-brand-surface px-3 py-1 text-xs font-semibold text-slate-500">
+>>>>>>> 7034c1fac89f4f63c0af4e4afea5fd639dbfbe32
           {status}
         </span>
       </div>
@@ -893,6 +1041,7 @@ const AdminMessageCard = ({ title, subtitle, status, body, onStatusChange, actio
 };
 
 export default Admin;
+<<<<<<< HEAD
 
 // ── Financing Tab ─────────────────────────────────────────────────────────────
 
@@ -1352,3 +1501,5 @@ const FinancingTab = ({ vehicles, clients, records, onClientCreated, onRecordCre
     </div>
   );
 };
+=======
+>>>>>>> 7034c1fac89f4f63c0af4e4afea5fd639dbfbe32

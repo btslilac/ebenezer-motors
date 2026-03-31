@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || "https://ebenezer-motors-main.vercel.app").replace(/\/$/, "");
+=======
+const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || "http://localhost:5000").replace(/\/$/, "");
+>>>>>>> 7034c1fac89f4f63c0af4e4afea5fd639dbfbe32
 
 const buildUrl = (path) => {
   if (path.startsWith("http")) {

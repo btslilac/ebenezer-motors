@@ -1,25 +1,79 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 import React, { useState } from 'react';
+=======
+import React, { useState, useEffect } from 'react';
+>>>>>>> 7034c1fac89f4f63c0af4e4afea5fd639dbfbe32
 import { useParams, Link } from 'react-router-dom';
 import { 
   ArrowLeft, Calendar, Gauge, Fuel, Zap, Settings, 
   Check, Phone, MessageCircle, MapPin, Fingerprint, Info 
 } from 'lucide-react';
-import { vehicles } from '../data/vehicles'; // Import Local Data
+import { getVehicleById } from '../services/vehicleApi';
+import { submitHireRequest } from '../services/publicApi';
 
 const VehicleDetailsHire = () => {
   const { id } = useParams();
   const [activeImage, setActiveImage] = useState(0);
+  const [vehicle, setVehicle] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState("");
+  const [hireForm, setHireForm] = useState({
+    name: "",
+    phone: "",
+    email: "",
+    startDate: "",
+    endDate: "",
+    notes: ""
+  });
+  const [hireStatus, setHireStatus] = useState({ state: "idle", message: "" });
 
-  // 1. Find Vehicle Locally
-  // We use .toString() to ensure matching works even if IDs are numbers
-  const vehicle = vehicles.find((car) => car.id.toString() === id);
+  useEffect(() => {
+    let isMounted = true;
+    const loadVehicle = async () => {
+      try {
+        setLoading(true);
+        const response = await getVehicleById(id);
+        if (isMounted) {
+          setVehicle(response?.data || null);
+          setLoadError("");
+          setActiveImage(0);
+        }
+      } catch (error) {
+        if (isMounted) {
+          setLoadError(error.message || "Unable to load vehicle");
+          setVehicle(null);
+        }
+      } finally {
+        if (isMounted) {
+          setLoading(false);
+        }
+      }
+    };
+
+    if (id) {
+      loadVehicle();
+    }
+    return () => {
+      isMounted = false;
+    };
+  }, [id]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center gap-4 bg-slate-50">
+        <h1 className="text-2xl font-bold text-gray-700">Loading vehicle...</h1>
+      </div>
+    );
+  }
 
   if (!vehicle) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center gap-4 bg-slate-50">
         <h1 className="text-2xl font-bold text-gray-700">Vehicle Not Found</h1>
-        <p className="text-gray-500">The vehicle you are looking for does not exist in our local inventory.</p>
+        <p className="text-gray-500">
+          {loadError || "The vehicle you are looking for does not exist in our inventory."}
+        </p>
         <Link to="/inventory" className="px-6 py-2 bg-brand-accent text-white rounded-full hover:bg-brand-accentLight transition">
           Return to Inventory
         </Link>
@@ -208,6 +262,90 @@ const VehicleDetailsHire = () => {
                   <Phone size={20} /> Call Now
                 </a>
               </div>
+            </div>
+
+            <div className="bg-white rounded-2xl p-6 shadow-sm border border-brand-muted/60">
+              <h3 className="text-lg font-heading font-semibold text-brand-primary mb-4">Request Hire</h3>
+              <form
+                className="space-y-4"
+                onSubmit={async (event) => {
+                  event.preventDefault();
+                  try {
+                    setHireStatus({ state: "loading", message: "" });
+                    await submitHireRequest({
+                      vehicleId: vehicle._id || vehicle.id,
+                      name: hireForm.name,
+                      phone: hireForm.phone,
+                      email: hireForm.email,
+                      startDate: hireForm.startDate || undefined,
+                      endDate: hireForm.endDate || undefined,
+                      notes: hireForm.notes
+                    });
+                    setHireStatus({ state: "success", message: "Request sent. We will contact you shortly." });
+                    setHireForm({ name: "", phone: "", email: "", startDate: "", endDate: "", notes: "" });
+                  } catch (error) {
+                    setHireStatus({ state: "error", message: error.message || "Unable to submit request." });
+                  }
+                }}
+              >
+                <input
+                  type="text"
+                  placeholder="Full Name"
+                  value={hireForm.name}
+                  onChange={(event) => setHireForm({ ...hireForm, name: event.target.value })}
+                  className="w-full rounded-full border border-brand-muted px-4 py-3 text-sm focus:border-brand-accent focus:outline-none"
+                  required
+                />
+                <input
+                  type="tel"
+                  placeholder="Phone Number"
+                  value={hireForm.phone}
+                  onChange={(event) => setHireForm({ ...hireForm, phone: event.target.value })}
+                  className="w-full rounded-full border border-brand-muted px-4 py-3 text-sm focus:border-brand-accent focus:outline-none"
+                  required
+                />
+                <input
+                  type="email"
+                  placeholder="Email (optional)"
+                  value={hireForm.email}
+                  onChange={(event) => setHireForm({ ...hireForm, email: event.target.value })}
+                  className="w-full rounded-full border border-brand-muted px-4 py-3 text-sm focus:border-brand-accent focus:outline-none"
+                />
+                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                  <input
+                    type="date"
+                    value={hireForm.startDate}
+                    onChange={(event) => setHireForm({ ...hireForm, startDate: event.target.value })}
+                    className="w-full rounded-full border border-brand-muted px-4 py-3 text-sm focus:border-brand-accent focus:outline-none"
+                  />
+                  <input
+                    type="date"
+                    value={hireForm.endDate}
+                    onChange={(event) => setHireForm({ ...hireForm, endDate: event.target.value })}
+                    className="w-full rounded-full border border-brand-muted px-4 py-3 text-sm focus:border-brand-accent focus:outline-none"
+                  />
+                </div>
+                <textarea
+                  rows="3"
+                  placeholder="Notes (optional)"
+                  value={hireForm.notes}
+                  onChange={(event) => setHireForm({ ...hireForm, notes: event.target.value })}
+                  className="w-full rounded-2xl border border-brand-muted px-4 py-3 text-sm focus:border-brand-accent focus:outline-none"
+                />
+                <button
+                  type="submit"
+                  className="w-full rounded-full bg-brand-accent px-6 py-3 text-sm font-semibold text-white transition hover:bg-brand-accentLight"
+                  disabled={hireStatus.state === "loading"}
+                >
+                  {hireStatus.state === "loading" ? "Sending..." : "Submit Hire Request"}
+                </button>
+                {hireStatus.state === "success" && (
+                  <p className="text-sm text-green-600">{hireStatus.message}</p>
+                )}
+                {hireStatus.state === "error" && (
+                  <p className="text-sm text-red-600">{hireStatus.message}</p>
+                )}
+              </form>
             </div>
           </div>
 

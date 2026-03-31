@@ -55,7 +55,10 @@ npm --version
 | `npm run lint`    | Run ESLint across the project. Add `-- --fix` to auto-fix. |
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> 7034c1fac89f4f63c0af4e4afea5fd639dbfbe32
 ## Backend Setup (Node/Express + MongoDB)
 
 The backend lives in the `server` folder and exposes REST APIs for vehicles, contact messages, trade-ins, hire requests, and admin authentication.
@@ -97,7 +100,10 @@ Visit `/admin` in the frontend to access the admin dashboard. Create the first a
 
 Copy `.env.example` in the project root and set `VITE_API_BASE_URL` to your backend URL.
 
+<<<<<<< HEAD
 >>>>>>> eaec4ba (first commit)
+=======
+>>>>>>> 7034c1fac89f4f63c0af4e4afea5fd639dbfbe32
 ## Project Structure
 
 ```

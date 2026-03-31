@@ -1,8 +1,16 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 import React from "react";
+=======
+import React, { useState } from "react";
+>>>>>>> 7034c1fac89f4f63c0af4e4afea5fd639dbfbe32
 import { Mail, Phone, MapPin } from "lucide-react";
+import { submitContactMessage } from "../services/publicApi";
 
 const Contact = () => {
+  const [formState, setFormState] = useState({ name: "", email: "", message: "" });
+  const [submitStatus, setSubmitStatus] = useState({ state: "idle", message: "" });
+
   return (
     <div className="bg-brand-surface">
       {/* Hero */}
@@ -26,32 +34,61 @@ const Contact = () => {
               Send us a message
             </h2>
 
-            <form className="mt-6 space-y-4">
+            <form
+              className="mt-6 space-y-4"
+              onSubmit={async (event) => {
+                event.preventDefault();
+                try {
+                  setSubmitStatus({ state: "loading", message: "" });
+                  await submitContactMessage({
+                    name: formState.name,
+                    email: formState.email,
+                    message: formState.message
+                  });
+                  setSubmitStatus({ state: "success", message: "Message sent. We will reply shortly." });
+                  setFormState({ name: "", email: "", message: "" });
+                } catch (error) {
+                  setSubmitStatus({ state: "error", message: error.message || "Unable to send message." });
+                }
+              }}
+            >
               <input
                 type="text"
                 placeholder="Full Name"
                 className="w-full rounded-full border border-brand-muted px-5 py-3 text-sm focus:border-brand-accent focus:outline-none"
+                value={formState.name}
+                onChange={(event) => setFormState({ ...formState, name: event.target.value })}
                 required
               />
               <input
                 type="email"
                 placeholder="Email Address"
                 className="w-full rounded-full border border-brand-muted px-5 py-3 text-sm focus:border-brand-accent focus:outline-none"
+                value={formState.email}
+                onChange={(event) => setFormState({ ...formState, email: event.target.value })}
                 required
               />
               <textarea
                 placeholder="Your Message"
                 rows="4"
                 className="w-full rounded-2xl border border-brand-muted px-5 py-3 text-sm focus:border-brand-accent focus:outline-none"
+                value={formState.message}
+                onChange={(event) => setFormState({ ...formState, message: event.target.value })}
                 required
               />
               <button
                 type="submit"
                 className="w-full rounded-full bg-muted px-6 py-3 text-sm font-semibold text-black transition hover:bg-accentDark"
+                disabled={submitStatus.state === "loading"}
               >
-                Send Message
+                {submitStatus.state === "loading" ? "Sending..." : "Send Message"}
               </button>
-              {/* I need to add pop up that says success */}
+              {submitStatus.state === "success" && (
+                <p className="text-sm text-green-600">{submitStatus.message}</p>
+              )}
+              {submitStatus.state === "error" && (
+                <p className="text-sm text-red-600">{submitStatus.message}</p>
+              )}
             </form>
           </div>
 

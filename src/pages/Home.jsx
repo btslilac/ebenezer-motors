@@ -1,11 +1,18 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 import React, { useState } from 'react';
+=======
+import React, { useState, useEffect } from 'react';
+>>>>>>> 7034c1fac89f4f63c0af4e4afea5fd639dbfbe32
 import { Link } from 'react-router-dom';
 import VehicleCard from '../components/vehicle/VehicleCard';
-import { vehicles } from '../data/vehicles';
 import { CheckCircle, DollarSign, Shield } from 'lucide-react';
+import { getVehicles } from '../services/vehicleApi';
 
 const Home = () => {
+  const [vehicles, setVehicles] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState("");
   // --- 1. SEARCH STATE MANAGEMENT ---
   const [filters, setFilters] = useState({
     brand: 'All',
@@ -15,6 +22,33 @@ const Home = () => {
   const [searchResults, setSearchResults] = useState([]);
   const [hasSearched, setHasSearched] = useState(false);
 
+  useEffect(() => {
+    let isMounted = true;
+    const loadVehicles = async () => {
+      try {
+        setLoading(true);
+        const response = await getVehicles({ limit: 200 });
+        if (isMounted) {
+          setVehicles(response?.data || []);
+          setLoadError("");
+        }
+      } catch (error) {
+        if (isMounted) {
+          setLoadError(error.message || "Failed to load vehicles");
+        }
+      } finally {
+        if (isMounted) {
+          setLoading(false);
+        }
+      }
+    };
+
+    loadVehicles();
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
   // --- 2. EXTRACT DATA FOR DROPDOWNS ---
   // Get unique brands from your data
   const brands = ['All', ...new Set(vehicles.map(v => v.brand))];
@@ -22,17 +56,27 @@ const Home = () => {
   const years = ['All', ...new Set(vehicles.map(v => v.modelYear))].sort((a, b) => b - a);
 
   // --- 3. HANDLE SEARCH BUTTON CLICK ---
-  const handleSearch = () => {
-    const filtered = vehicles.filter((vehicle) => {
+  const filterVehicles = (list) => {
+    return list.filter((vehicle) => {
       if (filters.brand !== 'All' && vehicle.brand !== filters.brand) return false;
       if (filters.year !== 'All' && String(vehicle.modelYear) !== filters.year) return false;
       if (filters.maxPrice !== 'All' && vehicle.price > Number(filters.maxPrice)) return false;
       return true;
     });
+  };
+
+  const handleSearch = () => {
+    const filtered = filterVehicles(vehicles);
 
     setSearchResults(filtered);
     setHasSearched(true);
   };
+
+  useEffect(() => {
+    if (hasSearched) {
+      setSearchResults(filterVehicles(vehicles));
+    }
+  }, [vehicles, filters, hasSearched]);
 
   // Filter new arrivals based on curated metadata
   const newArrivals = vehicles.filter(v => v.isNewArrival).slice(0, 3);
@@ -171,6 +215,14 @@ const Home = () => {
         </div>
       </div>
 
+      {loadError && (
+        <div className="mx-auto mt-6 max-w-6xl px-4">
+          <div className="rounded-2xl border border-red-200 bg-red-50 p-4 text-sm text-red-700">
+            {loadError}
+          </div>
+        </div>
+      )}
+
       {hasSearched && (
         <section className="mx-auto max-w-6xl px-4 pt-10 sm:px-6 lg:px-8">
           <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
@@ -196,7 +248,7 @@ const Home = () => {
           <div className="mt-8 grid gap-8 sm:grid-cols-2 xl:grid-cols-3">
             {searchResults.length > 0 ? (
               searchResults.map((vehicle) => (
-                <VehicleCard key={vehicle.id} vehicle={vehicle} />
+                <VehicleCard key={vehicle._id || vehicle.id} vehicle={vehicle} />
               ))
             ) : (
               <div className="rounded-2xl border border-dashed border-brand-muted/60 bg-white p-8 text-center text-sm text-slate-500">
@@ -222,9 +274,19 @@ const Home = () => {
         </div>
 
         <div className="mt-10 grid gap-8 sm:grid-cols-2 xl:grid-cols-3">
-          {newArrivals.map((vehicle) => (
-            <VehicleCard key={vehicle.id} vehicle={vehicle} />
+          {loading && (
+            <div className="rounded-2xl border border-dashed border-brand-muted/60 bg-white p-8 text-center text-sm text-slate-500">
+              Loading latest arrivals...
+            </div>
+          )}
+          {!loading && newArrivals.map((vehicle) => (
+            <VehicleCard key={vehicle._id || vehicle.id} vehicle={vehicle} />
           ))}
+          {!loading && newArrivals.length === 0 && (
+            <div className="rounded-2xl border border-dashed border-brand-muted/60 bg-white p-8 text-center text-sm text-slate-500">
+              No new arrivals yet.
+            </div>
+          )}
         </div>
       </section>
 
